@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import saveWinnerAndBuyerRouter from "../infra/routes/saveWinnerAndBuyer.route";
+import saveSellerAndBuyerRouter from "../infra/routes/saveSellerAndBuyer.route";
 import { RouterEndpoints } from "../interfaces/routes";
 import { errorHandler } from "../middlewares/errorHandler";
 
@@ -20,8 +20,8 @@ export class Server {
 
   private routes() {
     this.app.use(
-      RouterEndpoints.SAVE_WINNER_AND_BUYER as string,
-      saveWinnerAndBuyerRouter
+      RouterEndpoints.SAVE_SELLER_AND_BUYER as string,
+      saveSellerAndBuyerRouter
     );
 
     // Adicionar rota de healthcheck
