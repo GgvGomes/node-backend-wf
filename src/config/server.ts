@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import saveWinnerAndBuyerRouter from "../infra/routes/saveWinnerAndBuyer.route";
+import { RouterEndpoints } from "../interfaces/routes";
 
 export class Server {
   private app = express();
@@ -13,10 +14,11 @@ export class Server {
   private middlewares() {
     this.app.use(cors({ origin: "*", credentials: true }));
     this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
   }
 
   private routes() {
-    this.app.use("/api/v1/save-winner-and-buyer", saveWinnerAndBuyerRouter);
+    this.app.use(RouterEndpoints.SAVE_WINNER_AND_BUYER, saveWinnerAndBuyerRouter);
   }
 
   public async start(port: number | string) {

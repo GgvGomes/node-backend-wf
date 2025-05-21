@@ -16,5 +16,4 @@ export interface IWinnerBuyerDTO {
     neighborhood: string;
     state: string;
   };
-  acceptTerms: boolean;
 }

@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "moduleResolution": "node16",
-    "module": "Node16",
+    "moduleResolution": "nodenext",
+    "module": "NodeNext",
     "outDir": "./dist",
     "strict": true,
     "strictPropertyInitialization": false,
     "allowJs": true,
     "esModuleInterop": true,
+    "isolatedModules": true,
 
     "emitDecoratorMetadata": true,
 
