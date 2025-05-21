@@ -1,35 +1,27 @@
-import express, { Application } from "express";
+import express from "express";
 import cors from "cors";
+import saveWinnerAndBuyerRouter from "../infra/routes/saveWinnerAndBuyer.route";
 
 export class Server {
-  private app: Application;
+  private app = express();
 
   constructor() {
-    this.app = express();
-    this.setupMiddlewares();
-    this.setupRoutes();
+    this.middlewares();
+    this.routes();
   }
 
-  private setupMiddlewares() {
-    this.app.use(express.json({ limit: "10kb" }));
-    this.app.use(express.urlencoded({ extended: true }));
-
-    this.app.use(
-      cors({
-        origin: "*", // TODO: Trocar por domínios específicos em produção
-        credentials: true,
-      })
-    );
+  private middlewares() {
+    this.app.use(cors({ origin: "*", credentials: true }));
+    this.app.use(express.json());
   }
 
-  private setupRoutes() {
-    // TODO: Aqui serão registradas as rotas futuramente
-    // this.app.use('/api/v1/save-form', formRouter);
+  private routes() {
+    this.app.use("/api/v1/save-winner-and-buyer", saveWinnerAndBuyerRouter);
   }
 
   public async start(port: number | string) {
-    this.app.listen(port, () =>
-      console.log(`Servidor iniciado em http://localhost:${port}`)
-    );
+    this.app.listen(port, () => {
+      console.log(`Servidor iniciado em http://localhost:${port}`);
+    });
   }
 }
