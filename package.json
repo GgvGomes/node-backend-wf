@@ -7,9 +7,11 @@
     "start": "ts-node-dev --files -r tsconfig-paths/register --inspect --ignore-watch node_modules src/index.ts"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.3"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.18",
     "@types/express": "^4.17.13",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.12.0",

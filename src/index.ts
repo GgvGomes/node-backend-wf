@@ -1,13 +1,16 @@
-import express from "express";
+import "dotenv/config";
+import { Server } from "./config/server";
 
-const app = express();
+const PORT = process.env.PORT || 3000;
 
-const port = process.env.PORT || 4568;
+const bootstrap = async () => {
+  try {
+    const server = new Server();
+    await server.start(PORT);
+  } catch (error) {
+    console.error("Erro ao iniciar servidor:", error);
+    process.exit(1);
+  }
+};
 
-app.get("/ping", (req, res) => {
-  return res.send("pong");
-});
-
-app.listen(port, () => {
-  console.log(`Escutando na porta ${port}`);
-});
+bootstrap();
