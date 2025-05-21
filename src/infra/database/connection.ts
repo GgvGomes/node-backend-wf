@@ -3,7 +3,6 @@ import { createLogger } from "../../utils/logger";
 
 const logger = createLogger("Database");
 
-// Configuração do banco de dados
 const dbConfig = {
   host: process.env.MYSQLDB_HOST,
   port: Number(process.env.MYSQLDB_PORT),
@@ -15,21 +14,16 @@ const dbConfig = {
   queueLimit: 0,
 };
 
-// Pool de conexões
 let pool: mysql.Pool;
 
-// Inicializa a conexão com o banco de dados
 export const initDatabase = async (): Promise<void> => {
   try {
-    // Cria o pool de conexões
     pool = mysql.createPool(dbConfig);
 
-    // Testa a conexão
     const connection = await pool.getConnection();
     logger.info("Conexão com o banco de dados estabelecida com sucesso");
     connection.release();
 
-    // Verifica se o banco de dados existe, se não, cria
     await createDatabaseIfNotExists();
 
     // Verifica se as tabelas existem, se não, cria
@@ -40,15 +34,12 @@ export const initDatabase = async (): Promise<void> => {
   }
 };
 
-// Função para obter o pool de conexões
 export const getPool = (): mysql.Pool => {
-  if (!pool) {
-    throw new Error("Pool de conexões não inicializado");
-  }
+  if (!pool) throw new Error("Pool de conexões não inicializado");
+
   return pool;
 };
 
-// Função para criar o banco de dados se não existir
 const createDatabaseIfNotExists = async (): Promise<void> => {
   try {
     const tempPool = mysql.createPool({
@@ -72,12 +63,10 @@ const createDatabaseIfNotExists = async (): Promise<void> => {
   }
 };
 
-// Função para criar as tabelas se não existirem
 const createTablesIfNotExist = async (): Promise<void> => {
   try {
     const connection = await pool.getConnection();
 
-    // Tabela de vendedores/compradores com campos de endereço
     await connection.query(`
       CREATE TABLE IF NOT EXISTS sellers_buyers (
         id INT AUTO_INCREMENT PRIMARY KEY,

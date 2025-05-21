@@ -15,7 +15,6 @@ export class SellerBuyerController implements ISellerBuyerController {
     const connection = await pool.getConnection();
 
     try {
-      // Insere todos os dados na tabela sellers_buyers
       const [result] = await connection.query<ResultSetHeader>(
         `INSERT INTO sellers_buyers (
           person_type, cpf, cnpj, name, phone, cellphone, email,
@@ -50,5 +49,4 @@ export class SellerBuyerController implements ISellerBuyerController {
   }
 }
 
-// Singleton para uso em toda a aplicação
 export const sellerBuyerController = new SellerBuyerController();

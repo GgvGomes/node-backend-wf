@@ -18,7 +18,6 @@ router.post("/", async (req: Request, res: Response) => {
 
     const data = result.data;
 
-    // Salvar os dados no banco de dados
     try {
       const id = await sellerBuyerController.save(data);
       logger.info(`Dados salvos com sucesso. ID: ${id}`);
