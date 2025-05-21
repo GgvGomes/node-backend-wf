@@ -3,49 +3,112 @@ import express from "express";
 import saveWinnerAndBuyerRouter from "../routes/saveWinnerAndBuyer.route";
 import { RouterEndpoints } from "../../interfaces/routes";
 
+// Configuração correta do app de teste
 const app = express();
 app.use(express.json());
-app.use(RouterEndpoints.SAVE_WINNER_AND_BUYER, saveWinnerAndBuyerRouter);
+// Usando a rota raiz para o router nos testes
+app.use("/", saveWinnerAndBuyerRouter);
+
+const validPJBody = {
+  personType: "PJ",
+  cnpj: "12.345.678/0001-90",
+  name: "Empresa Exemplo",
+  cellphone: "11999999999",
+  email: "email@exemplo.com",
+  confirmEmail: "email@exemplo.com",
+  address: {
+    cep: "12345-678",
+    street: "Rua A",
+    number: "123",
+    complement: "Sala 1",
+    city: "Cidade",
+    neighborhood: "Centro",
+    state: "SP",
+  },
+};
+
+const validPFBody = {
+  personType: "PF",
+  cpf: "123.456.789-10",
+  name: "Pessoa Física Exemplo",
+  cellphone: "11999999999",
+  email: "email@exemplo.com",
+  confirmEmail: "email@exemplo.com",
+  address: {
+    cep: "12345-678",
+    street: "Rua A",
+    number: "123",
+    city: "Cidade",
+    neighborhood: "Centro",
+    state: "SP",
+  },
+};
 
 describe(`POST ${RouterEndpoints.SAVE_WINNER_AND_BUYER}`, () => {
-  const validBody = {
-    personType: "juridica",
-    cnpj: "12.345.678/0001-90",
-    name: "Empresa Exemplo",
-    cpf: "123.456.789-10",
-    phone: "1133445566",
-    cellphone: "11999999999",
-    email: "email@exemplo.com",
-    confirmEmail: "email@exemplo.com",
-    address: {
-      cep: "12345-678",
-      street: "Rua A",
-      number: "123",
-      complement: "Sala 1",
-      city: "Cidade",
-      neighborhood: "Centro",
-      state: "SP",
-    },
-  };
-
-  it("deve retornar 201 com dados válidos", async () => {
-    const response = await request(app)
-      .post(RouterEndpoints.SAVE_WINNER_AND_BUYER)
-      .send(validBody);
+  it("deve retornar 201 com dados válidos de PJ", async () => {
+    const response = await request(app).post("/").send(validPJBody);
 
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("message");
+    expect(response.body.message).toBe("Dados recebidos com sucesso!");
+    expect(response.body.data).toMatchObject(validPJBody);
+  });
+
+  it("deve retornar 201 com dados válidos de PF", async () => {
+    const response = await request(app).post("/").send(validPFBody);
+
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("message");
+    expect(response.body.message).toBe("Dados recebidos com sucesso!");
+    expect(response.body.data).toMatchObject(validPFBody);
   });
 
   it("deve retornar 400 se os emails forem diferentes", async () => {
     const invalidBody = {
-      ...validBody,
+      ...validPJBody,
       confirmEmail: "diferente@exemplo.com",
     };
 
-    const response = await request(app)
-      .post(RouterEndpoints.SAVE_WINNER_AND_BUYER)
-      .send(invalidBody);
+    const response = await request(app).post("/").send(invalidBody);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("errors");
+    expect(response.body.errors[0].message).toBe("Os emails não coincidem");
+  });
+
+  it("deve retornar 400 se o CPF for inválido", async () => {
+    const invalidBody = {
+      ...validPFBody,
+      cpf: "123.456.789-1", // CPF inválido
+    };
+
+    const response = await request(app).post("/").send(invalidBody);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("errors");
+    expect(response.body.errors[0].message).toBe("CPF inválido");
+  });
+
+  it("deve retornar 400 se o CNPJ for inválido", async () => {
+    const invalidBody = {
+      ...validPJBody,
+      cnpj: "12.345.678/0001-9", // CNPJ inválido
+    };
+
+    const response = await request(app).post("/").send(invalidBody);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("errors");
+    expect(response.body.errors[0].message).toBe("CNPJ inválido");
+  });
+
+  it("deve retornar 400 se campos obrigatórios estiverem faltando", async () => {
+    const invalidBody = {
+      personType: "PF",
+      // Faltando nome e outros campos obrigatórios
+    };
+
+    const response = await request(app).post("/").send(invalidBody);
 
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty("errors");

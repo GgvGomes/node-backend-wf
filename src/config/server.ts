@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import saveWinnerAndBuyerRouter from "../infra/routes/saveWinnerAndBuyer.route";
 import { RouterEndpoints } from "../interfaces/routes";
+import { errorHandler } from "../middlewares/errorHandler";
 
 export class Server {
   private app = express();
@@ -18,7 +19,23 @@ export class Server {
   }
 
   private routes() {
-    this.app.use(RouterEndpoints.SAVE_WINNER_AND_BUYER, saveWinnerAndBuyerRouter);
+    this.app.use(
+      RouterEndpoints.SAVE_WINNER_AND_BUYER as string,
+      saveWinnerAndBuyerRouter
+    );
+
+    // Adicionar rota de healthcheck
+    this.app.get("/health", (req, res) => {
+      res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
+    });
+
+    // Middleware para rotas não encontradas
+    this.app.use("*", (req, res) => {
+      res.status(404).json({ message: "Rota não encontrada" });
+    });
+
+    // Middleware de tratamento de erros
+    this.app.use(errorHandler);
   }
 
   public async start(port: number | string) {
