@@ -1,0 +1,287 @@
+{
+    "info": {
+        "_postman_id": "b5e3f8d1-7a8c-4e5d-9b3a-8f7c2e9d1a5b",
+        "name": "Seller Buyer API",
+        "description": "Collection for testing the Seller Buyer API endpoints",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Health Check",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/health",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "health"
+                    ]
+                },
+                "description": "Check if the API is up and running"
+            },
+            "response": []
+        },
+        {
+            "name": "Save Seller and Buyer - PF (Valid)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"personType\": \"PF\",\n  \"cpf\": \"123.456.789-10\",\n  \"name\": \"João da Silva\",\n  \"cellphone\": \"11999999999\",\n  \"phone\": \"1122223333\",\n  \"email\": \"joao@exemplo.com\",\n  \"confirmEmail\": \"joao@exemplo.com\",\n  \"address\": {\n    \"cep\": \"12345-678\",\n    \"street\": \"Rua das Flores\",\n    \"number\": \"123\",\n    \"complement\": \"Apto 101\",\n    \"city\": \"São Paulo\",\n    \"neighborhood\": \"Centro\",\n    \"state\": \"SP\"\n  }\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/v1/save-seller-and-buyer",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "save-seller-and-buyer"
+                    ]
+                },
+                "description": "Save a valid Pessoa Física (PF) seller/buyer"
+            },
+            "response": []
+        },
+        {
+            "name": "Save Seller and Buyer - PJ (Valid)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"personType\": \"PJ\",\n  \"cnpj\": \"12.345.678/0001-90\",\n  \"name\": \"Empresa Exemplo LTDA\",\n  \"cellphone\": \"11999999999\",\n  \"phone\": \"1122223333\",\n  \"email\": \"contato@empresa.com\",\n  \"confirmEmail\": \"contato@empresa.com\",\n  \"address\": {\n    \"cep\": \"12345-678\",\n    \"street\": \"Avenida Paulista\",\n    \"number\": \"1000\",\n    \"complement\": \"Sala 123\",\n    \"city\": \"São Paulo\",\n    \"neighborhood\": \"Bela Vista\",\n    \"state\": \"SP\"\n  }\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/v1/save-seller-and-buyer",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "save-seller-and-buyer"
+                    ]
+                },
+                "description": "Save a valid Pessoa Jurídica (PJ) seller/buyer"
+            },
+            "response": []
+        },
+        {
+            "name": "Save Seller and Buyer - Invalid Email",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"personType\": \"PF\",\n  \"cpf\": \"123.456.789-10\",\n  \"name\": \"João da Silva\",\n  \"cellphone\": \"11999999999\",\n  \"email\": \"joao@exemplo.com\",\n  \"confirmEmail\": \"diferente@exemplo.com\",\n  \"address\": {\n    \"cep\": \"12345-678\",\n    \"street\": \"Rua das Flores\",\n    \"number\": \"123\",\n    \"city\": \"São Paulo\",\n    \"neighborhood\": \"Centro\",\n    \"state\": \"SP\"\n  }\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/v1/save-seller-and-buyer",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "save-seller-and-buyer"
+                    ]
+                },
+                "description": "Test validation error when emails don't match"
+            },
+            "response": []
+        },
+        {
+            "name": "Save Seller and Buyer - Invalid CPF",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"personType\": \"PF\",\n  \"cpf\": \"123.456.789-1\",\n  \"name\": \"João da Silva\",\n  \"cellphone\": \"11999999999\",\n  \"email\": \"joao@exemplo.com\",\n  \"confirmEmail\": \"joao@exemplo.com\",\n  \"address\": {\n    \"cep\": \"12345-678\",\n    \"street\": \"Rua das Flores\",\n    \"number\": \"123\",\n    \"city\": \"São Paulo\",\n    \"neighborhood\": \"Centro\",\n    \"state\": \"SP\"\n  }\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/v1/save-seller-and-buyer",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "save-seller-and-buyer"
+                    ]
+                },
+                "description": "Test validation error with invalid CPF format"
+            },
+            "response": []
+        },
+        {
+            "name": "Save Seller and Buyer - Invalid CNPJ",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"personType\": \"PJ\",\n  \"cnpj\": \"12.345.678/0001-9\",\n  \"name\": \"Empresa Exemplo LTDA\",\n  \"cellphone\": \"11999999999\",\n  \"email\": \"contato@empresa.com\",\n  \"confirmEmail\": \"contato@empresa.com\",\n  \"address\": {\n    \"cep\": \"12345-678\",\n    \"street\": \"Avenida Paulista\",\n    \"number\": \"1000\",\n    \"city\": \"São Paulo\",\n    \"neighborhood\": \"Bela Vista\",\n    \"state\": \"SP\"\n  }\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/v1/save-seller-and-buyer",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "save-seller-and-buyer"
+                    ]
+                },
+                "description": "Test validation error with invalid CNPJ format"
+            },
+            "response": []
+        },
+        {
+            "name": "Save Seller and Buyer - Missing Required Fields",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"personType\": \"PF\",\n  \"cpf\": \"123.456.789-10\"\n  // Missing other required fields\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/v1/save-seller-and-buyer",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "save-seller-and-buyer"
+                    ]
+                },
+                "description": "Test validation error when required fields are missing"
+            },
+            "response": []
+        },
+        {
+            "name": "Save Seller and Buyer - PF without CPF",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"personType\": \"PF\",\n  \"name\": \"João da Silva\",\n  \"cellphone\": \"11999999999\",\n  \"email\": \"joao@exemplo.com\",\n  \"confirmEmail\": \"joao@exemplo.com\",\n  \"address\": {\n    \"cep\": \"12345-678\",\n    \"street\": \"Rua das Flores\",\n    \"number\": \"123\",\n    \"city\": \"São Paulo\",\n    \"neighborhood\": \"Centro\",\n    \"state\": \"SP\"\n  }\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/v1/save-seller-and-buyer",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "save-seller-and-buyer"
+                    ]
+                },
+                "description": "Test validation error when PF is missing CPF"
+            },
+            "response": []
+        },
+        {
+            "name": "Save Seller and Buyer - PJ without CNPJ",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"personType\": \"PJ\",\n  \"name\": \"Empresa Exemplo LTDA\",\n  \"cellphone\": \"11999999999\",\n  \"email\": \"contato@empresa.com\",\n  \"confirmEmail\": \"contato@empresa.com\",\n  \"address\": {\n    \"cep\": \"12345-678\",\n    \"street\": \"Avenida Paulista\",\n    \"number\": \"1000\",\n    \"city\": \"São Paulo\",\n    \"neighborhood\": \"Bela Vista\",\n    \"state\": \"SP\"\n  }\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/v1/save-seller-and-buyer",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "save-seller-and-buyer"
+                    ]
+                },
+                "description": "Test validation error when PJ is missing CNPJ"
+            },
+            "response": []
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:3000",
+            "type": "string"
+        }
+    ]
+}

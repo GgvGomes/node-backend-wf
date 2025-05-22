@@ -4,17 +4,14 @@ import saveSellerAndBuyerRouter from "../routes/saveSellerAndBuyer.route";
 import { RouterEndpoints } from "../../interfaces/routes";
 import { sellerBuyerController } from "../controllers/sellerBuyer.controller";
 
-// Mock do controlador para os testes
 jest.mock("../controllers/sellerBuyer.controller", () => ({
   sellerBuyerController: {
     save: jest.fn().mockResolvedValue(1),
   },
 }));
 
-// Configuração correta do app de teste
 const app = express();
 app.use(express.json());
-// Usando a rota raiz para o router nos testes
 app.use("/", saveSellerAndBuyerRouter);
 
 const validPJBody = {

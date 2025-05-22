@@ -14,10 +14,14 @@ const dbConfig = {
   queueLimit: 0,
 };
 
-let pool: mysql.Pool;
+let pool: mysql.Pool | null = null;
 
 export const initDatabase = async (): Promise<void> => {
   try {
+    logger.info(
+      `Tentando conectar ao banco de dados: ${dbConfig.host}:${dbConfig.port}/${dbConfig.database}`
+    );
+
     pool = mysql.createPool(dbConfig);
 
     const connection = await pool.getConnection();
@@ -26,22 +30,28 @@ export const initDatabase = async (): Promise<void> => {
 
     await createDatabaseIfNotExists();
 
-    // Verifica se as tabelas existem, se não, cria
     await createTablesIfNotExist();
+
+    return Promise.resolve();
   } catch (error) {
     logger.error("Erro ao conectar com o banco de dados", error as Error);
+    pool = null;
     throw error;
   }
 };
 
 export const getPool = (): mysql.Pool => {
-  if (!pool) throw new Error("Pool de conexões não inicializado");
-
+  if (!pool) {
+    logger.error("Tentativa de acessar o pool de conexões antes da inicialização");
+    throw new Error("Pool de conexões não inicializado");
+  }
   return pool;
 };
 
 const createDatabaseIfNotExists = async (): Promise<void> => {
   try {
+    logger.info(`Verificando se o banco de dados ${dbConfig.database} existe`);
+
     const tempPool = mysql.createPool({
       host: dbConfig.host,
       port: dbConfig.port,
@@ -64,7 +74,13 @@ const createDatabaseIfNotExists = async (): Promise<void> => {
 };
 
 const createTablesIfNotExist = async (): Promise<void> => {
+  if (!pool) {
+    throw new Error("Pool de conexões não inicializado");
+  }
+
   try {
+    logger.info("Verificando se as tabelas existem");
+
     const connection = await pool.getConnection();
 
     await connection.query(`
@@ -94,5 +110,14 @@ const createTablesIfNotExist = async (): Promise<void> => {
   } catch (error) {
     logger.error("Erro ao criar tabelas", error as Error);
     throw error;
+  }
+};
+
+export const closePool = async (): Promise<void> => {
+  if (pool) {
+    logger.info("Fechando pool de conexões");
+    await pool.end();
+    pool = null;
+    logger.info("Pool de conexões fechado com sucesso");
   }
 };

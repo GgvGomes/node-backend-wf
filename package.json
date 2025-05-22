@@ -10,7 +10,8 @@
     "test:watch": "jest --watch",
     "test:watchAll": "jest --watchAll",
     "test:coverage": "jest --collectCoverage",
-    "clean": "rm -rf node_modules && npm install"
+    "clean": "rm -rf node_modules && npm install",
+    "check-db": "ts-node src/scripts/check-db-connection.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",

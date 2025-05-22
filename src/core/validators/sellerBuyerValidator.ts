@@ -18,7 +18,6 @@ export const addressSchema = z.object({
     .max(2, "Use a sigla do estado (2 letras)"),
 });
 
-// Definindo o tipo para os dados do formulário
 export type SellerBuyerFormData = {
   personType: "PF" | "PJ";
   cnpj?: string;

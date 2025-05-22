@@ -24,17 +24,14 @@ export class Server {
       saveSellerAndBuyerRouter
     );
 
-    // Adicionar rota de healthcheck
     this.app.get("/health", (req, res) => {
       res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
     });
 
-    // Middleware para rotas não encontradas
     this.app.use("*", (req, res) => {
       res.status(404).json({ message: "Rota não encontrada" });
     });
 
-    // Middleware de tratamento de erros
     this.app.use(errorHandler);
   }
 
