@@ -16,20 +16,22 @@ o docker-compose vai criar um container de um MySQL e você poderá acessar via 
 
 ## Guia para como visualizar os resultados no container:
 
-mysql -h localhost -P 3306 -u root -p
+mysql -h localhost -P 3306 -u root -p <br/>
 (inserir senha)
 
--- Listar todos os bancos de dados
+<br/>
+
+-- Listar todos os bancos de dados <br/>
 SHOW DATABASES;
 
 -- Selecionar o banco de dados <br/>
 USE seller_buyer_db;
 
--- Listar todas as tabelas
+-- Listar todas as tabelas <br/>
 SHOW TABLES;
 
--- Descrever a estrutura de uma tabela
+-- Descrever a estrutura de uma tabela <br/>
 DESCRIBE seller_buyers;
 
--- Consultar dados de uma tabela
+-- Consultar dados de uma tabela <br/>
 SELECT \* FROM seller_buyers;
