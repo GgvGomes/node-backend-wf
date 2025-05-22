@@ -19,8 +19,6 @@ o docker-compose vai criar um container de um MySQL e você poderá acessar via 
 mysql -h localhost -P 3306 -u root -p <br/>
 (inserir senha)
 
-<br/>
-
 -- Listar todos os bancos de dados <br/>
 SHOW DATABASES;
 
