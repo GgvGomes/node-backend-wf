@@ -22,7 +22,7 @@ mysql -h localhost -P 3306 -u root -p
 -- Listar todos os bancos de dados
 SHOW DATABASES;
 
--- Selecionar o banco de dados
+-- Selecionar o banco de dados \n
 USE seller_buyer_db;
 
 -- Listar todas as tabelas
